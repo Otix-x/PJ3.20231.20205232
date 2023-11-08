@@ -3,7 +3,7 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Button, Input } from "@material-tailwind/react";
 import AuthFormContainer from "@components/AuthFormContainer";
-import { filterFormikErrors } from "@/app/utils/formikHelper";
+import { filterFormikErrors } from "@/app/utils/formikHelpers";
 import React from "react";
 import { useFormik } from "formik";
 import Link from "next/link";

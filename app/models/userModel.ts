@@ -10,6 +10,7 @@ interface UserDocument extends Document {
     verified: boolean;
 }
 
+// Compare password
 interface Method{
     comparePassword(password: string): Promise<boolean>;
 }
@@ -29,6 +30,7 @@ const userSchema = new Schema<UserDocument, {}, Method>(
     }
 );
 
+// 
 userSchema.pre("save", async function (next) {
     try {
         if(!this.isModified("password")) return next();

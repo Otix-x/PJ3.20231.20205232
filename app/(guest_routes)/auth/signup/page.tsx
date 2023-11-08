@@ -6,10 +6,11 @@ import { Button, Input } from "@material-tailwind/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { filterFormikErrors } from "@/app/utils/formikHelper";
+import { filterFormikErrors } from "@/app/utils/formikHelpers";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
+// Validation Schema
 const validationSchema = yup.object().shape({
     name: yup.string().required("Name is required"),
     email: yup.string().email("Invalid email!").required("Email is required"),

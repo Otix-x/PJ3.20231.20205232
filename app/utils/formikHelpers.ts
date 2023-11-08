@@ -8,8 +8,9 @@ export const filterFormikErrors = <T extends object>(
         if (value) return key; 
     });
 
-    const finalErrors: string[] = [];
+    const finalErrors: string[] = []; // Array of errors to return
 
+    // Loop through all the errors and push them to the finalErrors array
     Object.entries(errors).forEach(([key,value]) => {
         if(touchedKeys.includes(key) && value) finalErrors.push(value)
     });
