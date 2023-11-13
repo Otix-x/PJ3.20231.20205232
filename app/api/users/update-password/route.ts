@@ -1,4 +1,5 @@
 import startDb from "@/app/lib/db";
+import { sendEmail } from "@/app/lib/email";
 import PasswordResetTokenModel from "@/app/models/passwordResetTokenModel";
 import UserModel from "@/app/models/userModel";
 import { UpdatePasswordRequest } from "@/app/types";
@@ -47,20 +48,9 @@ export const POST = async (req: Request) => {
 
         await PasswordResetTokenModel.findByIdAndDelete(resetToken._id);
 
-        const transport = nodemailer.createTransport({
-            host: "sandbox.smtp.mailtrap.io",
-            port: 2525,
-            auth: {
-              user: "9d6c04bf967312",
-              pass: "5772c33dcfa9fb"
-            }
-          });
-    
-        
-        await transport.sendMail({
-            from: "verification@psms.com",
-            to: user.email,
-            html: `<h1>Your password is now changed.</h1>`,
+        await sendEmail({
+            profile: { name: user.name, email: user.email },
+            subject: "password-changed",
         });
     
         return NextResponse.json({message: "Your password is now changed."});
