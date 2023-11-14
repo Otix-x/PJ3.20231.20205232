@@ -3,6 +3,9 @@ import UserModel from "@/app/models/userModel";
 import { EmailVerifyRequest } from "@/app/types";
 import { isValidObjectId } from "mongoose";
 import { NextResponse } from "next/server";
+import crypto from "crypto";
+import { sendEmail } from "@/app/lib/email";
+import startDb from "@/app/lib/db";
 
 export const POST = async (req: Request) => {
     try {
@@ -34,6 +37,49 @@ export const POST = async (req: Request) => {
         await EmailVerificationToken.findByIdAndDelete(verifyToken._id);
     
         return NextResponse.json({message: "Your email has been verified!"})
+    } catch (error) {
+        return NextResponse.json(
+            { error: "Something went wrong, please try again later!"},
+            { status: 500 }
+        );
+    }
+};
+
+export const GET = async (req: Request) => {
+    try {
+        const userId = req.url.split('?userId=')[1]
+        if(!isValidObjectId(userId)) return NextResponse.json({
+            error: "Invalid request, userId is required!"
+        }, { status: 401 })
+
+        await startDb();
+
+        const user = await UserModel.findById(userId);
+        if(!user) return NextResponse.json({
+            error: "Invalid request, user not found!"
+        }, { status: 401 })
+
+        if(user.verified) return NextResponse.json({
+            error: "Invalid request, user already verified!"
+        }, { status: 401 })
+
+        const token = crypto.randomBytes(36).toString('hex');
+        await EmailVerificationToken.findOneAndDelete({ user: userId });
+        await EmailVerificationToken.create({
+            user: userId,
+            token
+        })
+
+
+        const verificationUrl = `${process.env.VERIFICATION_URL}?token=${token}&userId=${userId}`;
+
+        await sendEmail({
+            profile: { name: user.name, email: user.email },
+            subject: "verification",
+            linkUrl: verificationUrl,
+        });
+    
+        return NextResponse.json({message: "Please check your email to verify your account"})
     } catch (error) {
         return NextResponse.json(
             { error: "Something went wrong, please try again later!"},
