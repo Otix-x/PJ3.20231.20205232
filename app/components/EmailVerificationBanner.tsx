@@ -12,7 +12,7 @@ export default function EmailVerificationBanner() {
         if (!profile) return;
 
         setSubmitting(true);
-        const res = await fetch("/api/users/verify?userId" + profile?.id, {
+        const res = await fetch("/api/users/verify?userId=" + profile.id, {
             method: "GET",
         });
         const { message, error } = await res.json();
@@ -29,7 +29,7 @@ export default function EmailVerificationBanner() {
     return (
         <div className="p-2 text-center bg-blue-50">
             <span>
-                It seems you haven`t verified your email address yet. Please verify your
+                It seems you haven&apos;t verified your email address yet. Please verify your
                 email address to continue.
             </span>
             <button

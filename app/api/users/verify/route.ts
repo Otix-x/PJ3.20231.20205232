@@ -47,7 +47,7 @@ export const POST = async (req: Request) => {
 
 export const GET = async (req: Request) => {
     try {
-        const userId = req.url.split('?userId=')[1]
+        const userId = req.url.split("?userId=")[1]
         if(!isValidObjectId(userId)) return NextResponse.json({
             error: "Invalid request, userId is required!"
         }, { status: 401 })
