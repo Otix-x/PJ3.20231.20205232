@@ -25,6 +25,7 @@
       "@components/*": ["./app/components/*"],
       "@lib/*": ["./app/lib/*"],
       "@models/*": ["./app/models/*"],
+      "@ui/*": ["./app/ui/*"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
