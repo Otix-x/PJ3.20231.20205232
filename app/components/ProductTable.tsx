@@ -1,7 +1,6 @@
 "use client";
 
 import { PencilIcon } from "@heroicons/react/24/solid";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import {
     Typography,
     CardBody,
@@ -77,7 +76,7 @@ export default function ProductTable(props: Props) {
         <div className="py-5">
             <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                 <div>
-                    <Typography variant="h5" color="blue-gray">
+                    <Typography variant="h2" color="blue-gray">
                         Products
                     </Typography>
                 </div>
@@ -87,7 +86,6 @@ export default function ProductTable(props: Props) {
                         href="/products/create"
                         className="select-none font-bold text-center uppercase transition-all text-xs py-2 px-4 rounded-lg bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
                     >
-                        <PlusIcon strokeWidth={2} className="h-4 w-4" />{" "}
                         <span>Add New</span>
                     </Link>
                 </div>

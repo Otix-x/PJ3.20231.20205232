@@ -8,7 +8,9 @@ import {
   ShoppingCartIcon,
   SparklesIcon,
   ShoppingBagIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
+import Image from 'next/image'
 import SignOutButton from "@components/SignOutButton";
 
 interface Props {
@@ -18,59 +20,74 @@ interface Props {
 const AdminSidebar = ({ children }: Props) => {
   return (
     <div className="flex">
-      <div className="flex flex-col justify-between bg-cyan-600 h-screen sticky top-0 w-64 p-10">
-        <ul className="space-y-4 text-white">
+      <div className="flex flex-col justify-between bg-white h-screen sticky top-10 w-64 mt-10 mb-10 p-10 rounded shadow-lg">
+        <ul className="space-y-6 text-grey-600">
           <li>
             <Link
-              className="font-semibold text-lg text-white"
+              className=" flex items-center space-x-1 font-semibold text-xl text-grey-600"
               href="/dashboard"
-            >
-              Ecommerce
+            > 
+              <Image src="https://img.logoipsum.com/248.svg" alt="Home" width={50} height={50}/> 
+              <span> Ecommerce </span> 
             </Link>
+            
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/dashboard">
-              <Squares2X2Icon className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
+            <button type="button" className="cursor-pointer hover:bg-indigo-50 hover:text-indigo-600 w-full rounded">
+              <Link className="flex items-center space-x-1 text-lg" href="/dashboard">
+                <Squares2X2Icon className="w-10 h-10" />
+                <span>Dashboard</span>
+              </Link>
+            </button>
             <hr className="w-full " />
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/products">
-              <ShoppingCartIcon className="w-4 h-4" />
-              <span>Products</span>
-            </Link>
+            <button type="button" className="cursor-pointer hover:bg-indigo-50 hover:text-indigo-600 w-full rounded">
+              <Link className="flex items-center space-x-1 text-lg" href="/products">
+                <ShoppingCartIcon className="w-10 h-10" />
+                <span>Products</span>
+              </Link>
+            </button>
             <hr className="w-full " />
           </li>
           <li>
-            <Link
-              className="flex items-center space-x-1"
-              href="/products/featured/add"
-            >
-              <SparklesIcon className="w-4 h-4" />
-              <span>Featured</span>
-            </Link>
+            <button type="button" className="cursor-pointer hover:bg-indigo-50 hover:text-indigo-600 w-full rounded">
+              <Link
+                className="flex items-center space-x-1 text-lg"
+                href="/products/featured/add"
+              >
+                <SparklesIcon className="w-10 h-10" />
+                <span>Featured</span>
+              </Link>
+            </button>
             <hr className="w-full " />
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/sales">
-              <CurrencyDollarIcon className="w-4 h-4" />
-              <span>Sales</span>
-            </Link>
+            <button type="button" className="cursor-pointer hover:bg-indigo-50 hover:text-indigo-600 w-full rounded">
+              <Link className="flex items-center space-x-1 text-lg" href="/sales">
+                <CurrencyDollarIcon className="w-10 h-10" />
+                <span>Sales</span>
+              </Link>
+            </button>
             <hr className="w-full " />
           </li>
           <li>
-            <Link className="flex items-center space-x-1" href="/orders">
-              <ShoppingBagIcon className="h-4 w-4" />
-              <span>Orders</span>
-            </Link>
+            <button type="button" className="cursor-pointer hover:bg-indigo-50 hover:text-indigo-600 w-full rounded">
+              <Link className="flex items-center space-x-1 text-lg" href="/orders">
+                <ShoppingBagIcon className="w-10 h-10" />
+                <span>Orders</span>
+              </Link>
+            </button>
             <hr className="w-full " />
           </li>
         </ul>
 
         <div>
           <SignOutButton>
-            <div className="cursor-pointer text-white">Logout</div>
+            <div className="cursor-pointer hover:bg-red-50 text-red-400 hover:text-red-800 text-lg flex items-center space-x-1 rounded">
+              <ArrowLeftOnRectangleIcon className="w-10 h-10"/>
+              Logout
+            </div>
           </SignOutButton>
         </div>
       </div>
