@@ -15,10 +15,11 @@ import React, {
 import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
+import { NewProductInfo } from "../types";
 
 interface Props {
   initialValue?: InitialValue;
-  onSubmit(values: any): void;
+  onSubmit(values: NewProductInfo): void;
 }
 
 export interface InitialValue {
@@ -124,7 +125,7 @@ export default function ProductForm(props: Props) {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="mb-2 text-xl">Add new product</h1>
+      <h1 className="mb-2 text-xl font-bold">Add new product</h1>
 
       <form
         action={() =>
