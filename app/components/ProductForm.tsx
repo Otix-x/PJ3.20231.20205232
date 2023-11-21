@@ -12,10 +12,11 @@ import React, {
   useTransition,
   ChangeEventHandler,
 } from "react";
-import { PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftCircleIcon, PlusIcon, TrashIcon } from "@heroicons/react/24/outline";
 import categories from "@/app/utils/categories";
 import ImageSelector from "@components/ImageSelector";
 import { NewProductInfo } from "../types";
+import Link from "next/link";
 
 interface Props {
   initialValue?: InitialValue;
@@ -125,8 +126,13 @@ export default function ProductForm(props: Props) {
 
   return (
     <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="mb-2 text-xl font-bold">Add new product</h1>
-
+      {/* <h1 className="mb-2 text-xl font-bold">Add new product</h1> */}
+      <div className="flex items-center mb-4">
+          <Link href="/products" >
+          <ArrowLeftCircleIcon className="h-6 w-6 mr-2 cursor-pointer" />
+          </Link>
+        <h1 className="text-xl font-bold">Add new product</h1>
+      </div>
       <form
         action={() =>
           startTransition(async () => {
@@ -163,7 +169,7 @@ export default function ProductForm(props: Props) {
         />
 
         <Textarea
-          className="h-52"
+          className="h-52 "
           label="Description"
           value={productInfo.description}
           onChange={({ target }) =>
@@ -265,7 +271,7 @@ export default function ProductForm(props: Props) {
           </button>
         </div>
 
-        <Button disabled={isPending} type="submit">
+        <Button disabled={isPending} type="submit" className="bg-blue-500">
           {getBtnTitle()}
         </Button>
       </form>
