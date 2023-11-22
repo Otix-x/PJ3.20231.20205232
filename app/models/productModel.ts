@@ -49,12 +49,14 @@ const productSchema = new Schema<ProductDocument>(
     { timestamps: true }
 );
 
+// Define virtual property for sale
 productSchema.virtual("sale").get(function (this: ProductDocument) {
     return Math.round(
         ((this.price.base - this.price.discounted) / this.price.base) * 100
     );
 });
 
+// Check if model exists, otherwise create it
 const ProductModel =
     models.Product || model<ProductDocument>("Product", productSchema);
 
