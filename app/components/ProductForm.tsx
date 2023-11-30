@@ -21,6 +21,7 @@ import Link from "next/link";
 interface Props {
   initialValue?: InitialValue;
   onSubmit(values: NewProductInfo): void;
+  onImageRemove?(source: string): void;
 }
 
 export interface InitialValue {
@@ -47,9 +48,9 @@ const defaultValue = {
 };
 
 export default function ProductForm(props: Props) {
-  const { onSubmit, initialValue } = props;
+  const { onSubmit, onImageRemove, initialValue } = props;
   const [isPending, startTransition] = useTransition();
-  const [images, setImages] = useState<File[]>([]);
+  const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [thumbnail, setThumbnail] = useState<File>();
   const [isForUpdate, setIsForUpdate] = useState(false);
   const [productInfo, setProductInfo] = useState({ ...defaultValue });
@@ -82,8 +83,30 @@ export default function ProductForm(props: Props) {
   };
 
   const removeImage = async (index: number) => {
-    const newImages = images.filter((_, idx) => idx !== index);
-    setImages([...newImages]);
+    if(!productImagesSource) return
+
+    const imageToRemove = productImagesSource[index];
+    const cloudSourceUrl = "http://res.cloudinary.com"
+
+    // if image is from cloudinary, remove it from cloudinary
+    if(imageToRemove.startsWith(cloudSourceUrl)){
+      onImageRemove && onImageRemove(imageToRemove)
+    }else {
+
+      // if image is from local, remove it from local
+      const fileIndexDifference = productImagesSource.length - imageFiles.length;
+      const indexToRemove = index - fileIndexDifference;
+      const newImageFiles = imageFiles.filter((_,i) => {
+        if (i !== indexToRemove) return true;
+      })
+      setImageFiles([...newImageFiles])
+    }
+
+    // update UI
+    const newImageSource = productImagesSource.filter((_,i) => {
+      if (i !== index) return true;
+    })
+    setProductImagesSource([...newImageSource])
   };
 
   const getBtnTitle = () => {
@@ -105,7 +128,7 @@ export default function ProductForm(props: Props) {
     if (files) {
       const newImages = Array.from(files).map((item) => item);
       const oldImages = productImagesSource || [];
-      setImages([...images, ...newImages]);
+      setImageFiles([...imageFiles, ...newImages]);
       setProductImagesSource([
         ...oldImages,
         ...newImages.map((file) => URL.createObjectURL(file)),
@@ -136,7 +159,7 @@ export default function ProductForm(props: Props) {
       <form
         action={() =>
           startTransition(async () => {
-            await onSubmit({ ...productInfo, images, thumbnail });
+            await onSubmit({ ...productInfo, images: imageFiles, thumbnail });
           })
         }
         className="space-y-6"
