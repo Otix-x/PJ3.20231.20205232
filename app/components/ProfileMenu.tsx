@@ -19,12 +19,13 @@ import SignOutButton from "./SignOutButton";
 
 interface Props {
   menuItems: MenuItems[];
+  avatar?: string;
 }
 
-export default function ProfileMenu({ menuItems }: Props) {
+export default function ProfileMenu({ menuItems,avatar }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const closeMenu = () => setIsMenuOpen(false);
-  const { isAdmin } = useAuth();
+  const { isAdmin, profile } = useAuth();
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -39,7 +40,7 @@ export default function ProfileMenu({ menuItems }: Props) {
             size="sm"
             alt="candice wu"
             className="border border-blue-500 p-0.5"
-            src="https://images.unsplash.com/photo-1570158268183-d296b2892211?auto=format&fit=crop&q=80&w=3456&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            src={avatar || "/avatar.jpg"}
           />
           <ChevronDownIcon
             strokeWidth={2.5}

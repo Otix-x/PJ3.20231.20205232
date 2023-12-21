@@ -59,7 +59,7 @@ export default function SignIn() {
     };
 
     return (
-        <AuthFormContainer title="Create New Account" onSubmit={handleSubmit}>
+        <AuthFormContainer title="Sign In" onSubmit={handleSubmit}>
             <Input
                 name="email"
                 label="Email"

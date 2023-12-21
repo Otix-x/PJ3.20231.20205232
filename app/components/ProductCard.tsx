@@ -11,6 +11,11 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import truncate from "truncate";
+import { formatPrice } from "../utils/helper";
+import useAuth from "../hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
+import { toast } from "react-toastify";
 
 interface Props {
   product: {
@@ -28,6 +33,26 @@ interface Props {
 }
 
 export default function ProductCard({ product }: Props) {
+  const { loggedIn } = useAuth();
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
+  
+  const addToCart = async () => {
+
+    if (!loggedIn) return router.push("/auth/signin");
+
+    const res = await fetch("/api/product/cart", {
+        method: "POST",
+        body: JSON.stringify({ productId: product.id, quantity: 1 }),
+    });
+
+    const { error } = await res.json();
+    if (!res.ok && error) toast.error(error);
+
+    router.refresh();
+  };
+
   return (
     <Card className="w-full">
       <Link className="w-full" href={`/${product.title}/${product.id}`}>
@@ -49,11 +74,11 @@ export default function ProductCard({ product }: Props) {
           </div>
           <div className="flex justify-end items-center space-x-2 mb-2">
             <Typography color="blue-gray" className="font-medium line-through">
-              {product.price.base}VNĐ
+              {formatPrice(product.price.base)}
             </Typography>
             <br/>
             <Typography color="blue-gray" className="font-medium">
-              {product.price.discounted}VNĐ
+              {formatPrice(product.price.discounted)}
             </Typography>
           </div>
           <p className="font-normal text-sm opacity-75 line-clamp-3">
@@ -66,6 +91,10 @@ export default function ProductCard({ product }: Props) {
           ripple={false}
           fullWidth={true}
           className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+          onClick={() => {
+            startTransition(async () => await addToCart());
+          }}
+          disabled={isPending}
         >
           Add to Cart
         </Button>
@@ -73,6 +102,8 @@ export default function ProductCard({ product }: Props) {
           ripple={false}
           fullWidth={true}
           className="bg-blue-400 text-white shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
+          // onClick={() => 
+          disabled={isPending}
         >
           Buy Now
         </Button>
