@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import startDb from "./db";
 import CartModel from "@models/cartModel";
 import { Types } from "mongoose";
