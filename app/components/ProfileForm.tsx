@@ -25,7 +25,7 @@ export default function ProfileForm({ id, name, avatar, email }: Props) {
   const showSubmitButton = avatarSource !== avatar || userName !== name;
 
   const updateUserInfo = async () => {
-    if (userName.trim().length < 3) return toast.error("Name is invalid!");
+    if (userName.trim().length < 3) return toast.error("Tên không hợp lệ!");
 
     const info: UserProfileToUpdate = { id, name: userName };
 
@@ -55,7 +55,7 @@ export default function ProfileForm({ id, name, avatar, email }: Props) {
       <div className="text-sm">Email: {email}</div>
       <Input
         onChange={({ target }) => setUserName(target.value)}
-        label="Name"
+        label="Tên"
         value={userName}
         className="font-semibold"
       />
@@ -66,7 +66,7 @@ export default function ProfileForm({ id, name, avatar, email }: Props) {
           color="blue"
           disabled={isPending}
         >
-          Submit
+          Cập nhật
         </Button>
       ) : null}
     </form>

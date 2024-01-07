@@ -54,7 +54,7 @@ export default function ForgetPassword() {
     };
 
     return (
-        <FormContainer title="Forget Password" onSubmit={handleSubmit}>
+        <FormContainer title="Quên mật khẩu" onSubmit={handleSubmit}>
             <Input
                 name="email"
                 label="Email"
@@ -65,11 +65,11 @@ export default function ForgetPassword() {
                 crossOrigin={undefined}
             />
             <Button type="submit" className="w-full" color="deep-purple" disabled={isSubmitting}>
-                Send Link
+                Xác nhận
             </Button>
             <div className="flex items-center justify-between">
-                <Link href="/auth/signin">Sign in</Link>
-                <Link href="/auth/signup">Sign up</Link>
+                <Link href="/auth/signin">Đăng nhập</Link>
+                <Link href="/auth/signup">Đăng ký</Link>
             </div>
             <div className="">
                 {errorsToRender.map((item) => {

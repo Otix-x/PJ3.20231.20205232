@@ -65,10 +65,10 @@ export default function SignUp() {
     };
 
     return (
-        <AuthFormContainer title="Create New Account" onSubmit={handleSubmit}>
+        <AuthFormContainer title="Tạo tài khoản" onSubmit={handleSubmit}>
             <Input
                 name="name"
-                label="Name"
+                label="Tên"
                 crossOrigin={undefined}
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -86,7 +86,7 @@ export default function SignUp() {
             />
             <Input
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 type="password"
                 crossOrigin={undefined}
                 onChange={handleChange}
@@ -95,11 +95,11 @@ export default function SignUp() {
                 error={error('password')}
             />
             <Button disabled={isSubmitting} type="submit" className="w-full" color="deep-orange">
-                Sign up
+                Đăng ký
             </Button>
             <div className="flex items-center justify-between">
-                <Link href="/auth/signin">Sign in</Link>
-                <Link href="/auth/forget-password">Forget password</Link>
+                <Link href="/auth/signin">Đăng nhập</Link>
+                <Link href="/auth/forget-password">Quên mật khẩu</Link>
             </div>
             <div className="">
                 {formErrors.map((err) => {

@@ -55,9 +55,9 @@ export default function BuyingOptions() {
                 startTransition(async () => await addToCart())
             }} 
             variant="text"
-            disabled={isPending}>Add to Cart</Button>
+            disabled={isPending}>Thêm vào giỏ hàng</Button>
             <Button disabled={isPending} color="amber" className="rounded-full">
-                Buy Now
+                Mua ngay
             </Button>
         </div>
     );

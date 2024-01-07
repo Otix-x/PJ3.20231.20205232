@@ -110,8 +110,8 @@ export default function ProductForm(props: Props) {
   };
 
   const getBtnTitle = () => {
-    if (isForUpdate) return isPending ? "Updating" : "Update";
-    return isPending ? "Creating" : "Create";
+    if (isForUpdate) return isPending ? "Đang cập nhật" : "Cập nhật";
+    return isPending ? "Đang thêm mới" : "Thêm mới";
   };
 
   useEffect(() => {
@@ -154,7 +154,7 @@ export default function ProductForm(props: Props) {
           <Link href="/products" >
           <ArrowLeftCircleIcon className="h-6 w-6 mr-2 cursor-pointer" />
           </Link>
-        <h1 className="text-xl font-bold">Add new product</h1>
+        <h1 className="text-xl font-bold">Thêm mới</h1>
       </div>
       <form
         action={() =>
@@ -183,7 +183,7 @@ export default function ProductForm(props: Props) {
         </div>
 
         <Input
-          label="Title"
+          label="Tên sản phẩm"
           value={productInfo.title}
           onChange={({ target }) =>
             setProductInfo({ ...productInfo, title: target.value })
@@ -193,7 +193,7 @@ export default function ProductForm(props: Props) {
 
         <Textarea
           className="h-52 "
-          label="Description"
+          label="Mô tả"
           value={productInfo.description}
           onChange={({ target }) =>
             setProductInfo({ ...productInfo, description: target.value })
@@ -205,7 +205,7 @@ export default function ProductForm(props: Props) {
             if (category) setProductInfo({ ...productInfo, category });
           }}
           value={productInfo.category}
-          label="Select Category"
+          label="Chọn danh mục"
         >
           {categories.map((c) => (
             <Option value={c} key={c}>
@@ -220,7 +220,7 @@ export default function ProductForm(props: Props) {
 
             <Input
               value={productInfo.mrp}
-              label="MRP"
+              label="Giá đề xuất"
               onChange={({ target }) => {
                 const mrp = +target.value;
                 setProductInfo({ ...productInfo, mrp });
@@ -230,7 +230,7 @@ export default function ProductForm(props: Props) {
             />
             <Input
               value={productInfo.salePrice}
-              label="Sale Price"
+              label="Giá bán"
               onChange={({ target }) => {
                 const salePrice = +target.value;
                 setProductInfo({ ...productInfo, salePrice });
@@ -245,7 +245,7 @@ export default function ProductForm(props: Props) {
 
             <Input
               value={productInfo.quantity}
-              label="Qty"
+              label="Số lượng"
               onChange={({ target }) => {
                 const quantity = +target.value;
                 if (!isNaN(quantity))
@@ -258,13 +258,13 @@ export default function ProductForm(props: Props) {
         </div>
 
         <div className="space-y-4">
-          <h3>Bullet points</h3>
+          <h3>Điểm nổi bật</h3>
           {fields.map((field, index) => (
             <div key={index} className="flex items-center">
               <Input
                 type="text"
                 value={field}
-                label={`Bullet point ${index + 1}`}
+                label={`Điểm nổi bật ${index + 1}`}
                 onChange={({ target }) =>
                   updateBulletPointValue(target.value, index)
                 }
@@ -290,7 +290,7 @@ export default function ProductForm(props: Props) {
             className="flex items-center space-x-1 text-gray-800 ml-auto"
           >
             <PlusIcon className="w-4 h-4" />
-            <span>Add more</span>
+            <span>Thêm</span>
           </button>
         </div>
 

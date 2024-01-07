@@ -1,5 +1,7 @@
 import ProductView from '@/app/components/ProductView';
+import SimilarProductsList from '@/app/components/SimilarProductsList';
 import startDb from '@/app/lib/db';
+import { updateOrCreateHistory } from '@/app/models/historyModel';
 import ProductModel from '@/app/models/productModel';
 import { auth } from '@/auth';
 import { isValidObjectId } from 'mongoose';
@@ -19,17 +21,8 @@ const fetchProduct = async (productId: string) => {
     const product = await ProductModel.findById(productId);
     if (!product) return redirect("/404");
 
-    // let isWishlist = false;
-
-    // const session = await auth();
-    // if (session?.user) {
-    //     await updateOrCreateHistory(session.user.id, product._id.toString());
-    //     const wishlist = await WishlistModel.findOne({
-    //         user: session.user.id,
-    //         products: product._id,
-    //     });
-    //     isWishlist = wishlist ? true : false;
-    // }
+    const session = await auth();
+    if(session?.user) await updateOrCreateHistory(session.user.id, product._id.toString());
 
     return JSON.stringify({
         id: product._id.toString(),
@@ -40,7 +33,21 @@ const fetchProduct = async (productId: string) => {
         bulletPoints: product.bulletPoints,
         price: product.price,
         sale: product.sale,
+        outOfStock: product.quantity <= 0
     });
+}
+
+const fetchSimilarProducts = async () => {
+    await startDb();
+    const products = await ProductModel.find({}).sort().limit(10);
+    products.map(({_id, thumbnail, title, price}) => {
+        return {
+            id: _id.toString(),
+            thumbnail: thumbnail.url,
+            title,
+            price: price.discounted
+        }
+    })
 }
 
 export default async function Product({ params }: Props) {
@@ -51,6 +58,7 @@ export default async function Product({ params }: Props) {
     if (productInfo.images) {
         productImages = productImages.concat(productInfo.images);
     }
+    const similarProducts = await fetchSimilarProducts();
 
     return (
         <div className='p-4'>
@@ -61,6 +69,7 @@ export default async function Product({ params }: Props) {
                 sale={productInfo.sale}
                 points={productInfo.bulletPoints}
                 images={productImages}
+                outOfStock={productInfo.outOfStock}
             />
         </div>
     )

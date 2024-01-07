@@ -17,19 +17,22 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { toast } from "react-toastify";
 
-interface Props {
-  product: {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
-    thumbnail: string;
-    sale: number;
-    price: {
-      base: number;
-      discounted: number;
-    };
+export interface Product {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  thumbnail: string;
+  rating?: number;
+  sale: number;
+  price: {
+    base: number;
+    discounted: number;
   };
+}
+
+interface Props {
+  product: Product;
 }
 
 export default function ProductCard({ product }: Props) {
@@ -111,7 +114,7 @@ export default function ProductCard({ product }: Props) {
           }}
           disabled={isPending}
         >
-          Add to Cart
+          Thêm vào giỏ hàng
         </Button>
         <Button
           disabled={isPending}
@@ -122,7 +125,7 @@ export default function ProductCard({ product }: Props) {
             startTransition(async () => await handleCheckout());
           }}
         >
-          Buy Now
+          Mua ngay
         </Button>
       </CardFooter>
     </Card>

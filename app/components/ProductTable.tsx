@@ -38,12 +38,12 @@ const formatPrice = (amount: number) => {
 };
 
 const TABLE_HEAD = [
-    "Product",
-    "MRP", // MRP = Manufacturer's Suggested Retail Price
-    "Sale Price",
-    "Quantity",
-    "Category",
-    "Edit",
+    "Sản phẩm",
+    "Giá đề xuất", // MRP = Manufacturer's Suggested Retail Price
+    "Giá bán",
+    "Số lượng",
+    "Thể loại",
+    "Thay đổi",
 ];
 
 interface Props {
@@ -77,16 +77,16 @@ export default function ProductTable(props: Props) {
             <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                 <div>
                     <Typography variant="h2" color="blue-gray">
-                        Products
+                        Sản phẩm
                     </Typography>
                 </div>
                 <div className="flex w-full shrink-0 gap-2 md:w-max">
-                    <SearchForm />
+                    <SearchForm submitTo="/products/search?query="  />
                     <Link
                         href="/products/create"
                         className="select-none font-bold text-center uppercase transition-all text-xs py-2 px-4 rounded-lg bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-3"
                     >
-                        <span>Add New</span>
+                        <span>Thêm mới</span>
                     </Link>
                 </div>
             </div>
@@ -192,14 +192,14 @@ export default function ProductTable(props: Props) {
                             onClick={handleOnPrevPress}
                             variant="text"
                         >
-                            Previous
+                            Trước
                         </Button>
                         <Button
                             disabled={!hasMore}
                             onClick={handleOnNextPress}
                             variant="text"
                         >
-                            Next
+                            Sau
                         </Button>
                     </div>
                 </CardFooter>

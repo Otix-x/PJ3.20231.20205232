@@ -37,8 +37,8 @@ export default function Verify(props: Props) {
     if(!token || !userId) return notFound()
     return (
         <div className='text-3xl opacity-70 text-center p-5 animate-pulse'>
-            Please wait...
-            <p>We are verifying your account</p>
+            Vui lòng chờ...
+            <p>Chúng tôi đang xác thực tài khoản của bạn</p>
         </div>
     )
 }

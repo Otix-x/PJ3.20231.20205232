@@ -8,19 +8,19 @@ const fileValidator = (file: File) => {
 };
 
 const commonSchema = {
-    title: Yup.string().required("Title is required"),
-    description: Yup.string().required("Description is required"),
+    title: Yup.string().required("Tên sản phẩm là bắt buộc"),
+    description: Yup.string().required("Mô tả sản phẩm là bắt buộc"),
     bulletPoints: Yup.array().of(Yup.string()),
-    mrp: Yup.number().required("MRP is required"),
+    mrp: Yup.number().required("Giá đề xuất là bắt buộc"),
     salePrice: Yup.number()
-        .required("Sale price is required")
-        .lessThan(Yup.ref("mrp"), "Sale price must be less than MRP"),
+        .required("Giá bán là bắt buộc")
+        .lessThan(Yup.ref("mrp"), "Giá bán phải nhỏ hơn giá đề xuất"),
     category: Yup.string()
-        .required("Category is required")
-        .oneOf(categories, "Invalid category"),
-    quantity: Yup.number().required("Quantity is required").integer(),
+        .required("Phân loại là bắt buộc")
+        .oneOf(categories, "Phân loại không hợp lệ"),
+    quantity: Yup.number().required("Số lượng là bắt buộc").integer(),
     images: Yup.array().of(
-        Yup.mixed().test("fileSize", "Image should be less than 1MB", (file) =>
+        Yup.mixed().test("fileSize", "Hình ảnh có kích thước bé hơn 1MB", (file) =>
             fileValidator(file as File)
         )
     ),
@@ -30,8 +30,8 @@ const commonSchema = {
 export const newProductInfoSchema = Yup.object().shape({
     ...commonSchema,
     thumbnail: Yup.mixed()
-        .required("Thumbnail is required")
-        .test("fileSize", "Thumbnail should be less than 1MB", (file) =>
+        .required("Thumbnail là bắt buộc")
+        .test("fileSize", "Thumbnail có kích thước bé hơn 1MB", (file) =>
             fileValidator(file as File)
         ),
 });

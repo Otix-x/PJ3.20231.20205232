@@ -1,86 +1,74 @@
-import { getCartItems } from '@/app/lib/cartHelper';
-import { auth } from '@/auth';
-import { isValidObjectId } from 'mongoose';
-import { NextResponse } from 'next/server';
-import Stripe from 'stripe';
+import { getCartItems } from "@/app/lib/cartHelper"
+import { auth } from "@/auth"
+import { isValidObjectId } from "mongoose"
+import { NextResponse } from "next/server"
+import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-    apiVersion: '2022-11-15',
-});
+    apiVersion: "2022-11-15"
+}) 
 
-export const POST = async (req: Request) => {
+export const POST = async (req : Request) => {
     try {
-        const session = await auth();
-        if (!session?.user) {
-            return NextResponse.json({
-                error: "Unauthorized request!",
-            }, {
-                status: 401,
-            })
+        const session = await auth()
+        if(!session?.user) return NextResponse.json({
+            error: "Unauthorized request!"
+        }, { status: 401 })
 
-        }
+        const data = await req.json()
+        const cartId = data.cartId as string
 
-        const data = await req.json();
-        const cartId = data.cartId as string;
-
-        if (!isValidObjectId(cartId)) {
-            return NextResponse.json({
-                error: "Invalid cart id!",
-            }, {
-                status: 401,
-            })
-        }
+        if(!isValidObjectId(cartId)) return NextResponse.json({
+            error: "Invalid cart id!"
+        }, { status: 401 })
 
         // fetching cart details
-        const cartItems = await getCartItems(session.user.id, cartId);
-        if (!cartItems) {
-            return NextResponse.json({
-                error: "Cart not found!",
-            }, {
-                status: 404,
-            })
-        }
+        const cartItems = await getCartItems(session.user.id, cartId)
+        if(!cartItems) return NextResponse.json({
+            error: "Cart not found!"
+        }, { status: 404 })
 
         const line_items = cartItems.products.map((product) => {
             return {
                 price_data: {
-                    currency: "VND",
+                    currency: "VND",    
                     unit_amount: product.price,
                     product_data: {
-                        name: product.title,
-                        images: [product.thumbnail],
-                    },
+                        name: product.title, 
+                        images: [product.thumbnail]
+                    }
                 },
-                quantity: product.qty,
-            };
-        });
+                quantity: product.qty
+            }
+        })
 
         const customer = await stripe.customers.create({
             metadata: {
                 userId: session.user.id,
                 cartId: cartId,
-                type: "checkout",
-            },
-        });
+                type: 'checkout',
+            }
+        })
 
-        // creating stripe checkout session
-        const params: Stripe.Checkout.SessionCreateParams = {
-            mode: 'payment',
-            payment_method_types: ['card'],
+        // Generate payment link and send to frontend app 
+        const params : Stripe.Checkout.SessionCreateParams = {
+            mode: "payment",
+            payment_method_types: ["card"],
             line_items,
             success_url: process.env.PAYMENT_SUCCESS_URL!,
             cancel_url: process.env.PAYMENT_CANCEL_URL!,
-            shipping_address_collection: { allowed_countries: ["VN"] },
+            shipping_address_collection: {allowed_countries: ["VN"]},
             customer: customer.id,
         }
 
-        const checkoutSession = await stripe.checkout.sessions.create(params);
-        return NextResponse.json({ url: checkoutSession.url });
-        
+        const checkoutSession = await stripe.checkout.sessions.create(params)
+        return NextResponse.json({
+            url: checkoutSession.url
+        });
     } catch (error) {
         return NextResponse.json(
-            { error: "Something went wrong, could not checkout!" },
-            { status: 500 }
+            {error: "Something went wrong, could not checkout!"},
+            {status: 500}
         );
-    }   
-}
+    }
+};

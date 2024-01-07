@@ -107,10 +107,10 @@ const CartItems: React.FC<CartItemsProps> = ({
 
       <div className="flex flex-col justify-end items-end space-y-4">
         <div className="flex justify-end space-x-4 text-blue-gray-800">
-          <p className="font-semibold text-2xl">Total</p>
+          <p className="font-semibold text-2xl">Tổng</p>
           <div>
             <p className="font-semibold text-2xl">{formatPrice(cartTotal)}</p>
-            <p className="text-right text-sm">{totalQty} items</p>
+            <p className="text-right text-sm">{totalQty} sản phẩm</p>
           </div>
         </div>
         <Button
@@ -119,7 +119,7 @@ const CartItems: React.FC<CartItemsProps> = ({
           disabled={busy}
           onClick={handleCheckout}
         >
-          Checkout
+          Thanh toán
         </Button>
       </div>
     </div>

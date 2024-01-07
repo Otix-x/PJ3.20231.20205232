@@ -33,7 +33,7 @@ const sendEmailVerificationLink = async (profile: profile, linkUrl: string) => {
         sender:"Project3-Nguyen Xuan Phuoc",
         to: profile.email,
         subject: "Verify email",
-        html: `<h4>Verify your email, click <a href="${linkUrl}">this link</a></h4>`,
+        html: `<h4>Xác nhận email của bạn, <a href="${linkUrl}">nhấn vào đây</a></h4>`,
     })
 };
 
@@ -45,7 +45,7 @@ const sendEmailForgetPasswordLink = async (profile: profile, linkUrl: string) =>
         sender:"Project3-Nguyen Xuan Phuoc",
         to: profile.email,
         subject: "Reset password",
-        html: `<h1>Click on <a href="${linkUrl}">this link</a> to reset your password.</h1>`,
+        html: `<h1><a href="${linkUrl}">Nhấn vào đây</a> để đặt lại mật khẩu của bạn.</h1>`,
     })
 };
 
@@ -57,7 +57,7 @@ const sendUpdatePasswordComfirmation = async (profile: profile) => {
         sender:"Project3-Nguyen Xuan Phuoc",
         to: profile.email,
         subject: "Password changed",
-        html: `<h1>We changed your password <a href="${process.env.SIGN_IN_URL}">click here</a> to sign in</h1>`,
+        html: `<h1>Chúng tôi đã cập nhật mật khẩu của bạn. <a href="${process.env.SIGN_IN_URL}">Nhấn vào đây</a> để đăng nhập</h1>`,
     })
 };
 

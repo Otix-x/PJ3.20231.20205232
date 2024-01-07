@@ -59,7 +59,7 @@ export default function SignIn() {
     };
 
     return (
-        <AuthFormContainer title="Sign In" onSubmit={handleSubmit}>
+        <AuthFormContainer title="Đăng nhập" onSubmit={handleSubmit}>
             <Input
                 name="email"
                 label="Email"
@@ -69,18 +69,18 @@ export default function SignIn() {
                 error={error("email")} crossOrigin={undefined} />
             <Input
                 name="password"
-                label="Password"
+                label="Mật khẩu"
                 value={password}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={error("password")}
                 type="password" crossOrigin={undefined} />
             <Button type="submit" className="w-full" color="green" disabled={isSubmitting}>
-                Sign in
+                Đăng nhập
             </Button>
             <div className="flex items-center justify-between">
-                <Link href="/auth/signup">Sign up</Link>
-                <Link href="/auth/forget-password">Forget password</Link>
+                <Link href="/auth/signup">Đăng ký</Link>
+                <Link href="/auth/forget-password">Quên mật khẩu</Link>
             </div>
             <div className="">
                 {errorsToRender.map((item) => {

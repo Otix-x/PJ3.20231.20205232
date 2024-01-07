@@ -32,15 +32,14 @@ export default function EmailVerificationBanner({ id, verified }: Props) {
     return (
         <div className="p-2 text-center bg-blue-50">
             <span>
-                It seems you haven&apos;t verified your email address yet. Please verify your
-                email address to continue.
+                Bạn chưa xác thực email này. Hãy xác thực email để thực hiện các chức năng tiếp theo.
             </span>
             <button
                 disabled={submitting}
                 onClick={applyForReverification}
                 className="ml-2 font-semibold underline"
             >
-                {submitting? "Generating link...": "Get verification link."}
+                {submitting? "Đang tạo đường dẫn...": "Nhận đường dẫn xác thực."}
             </button>
         </div>
     );

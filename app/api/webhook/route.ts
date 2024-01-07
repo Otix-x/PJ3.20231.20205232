@@ -37,23 +37,20 @@ export const POST = async (req: Request) => {
   }
 
   try {
-    if (event.type === "checkout.session.completed") {
+    if(event.type === 'checkout.session.completed') {
       const stripeSession = event.data.object as {
         customer: string;
         payment_intent: string;
         amount_subtotal: number;
         customer_details: any;
         payment_status: string;
-      };
-
-      const customer = (await stripe.customers.retrieve(
-        stripeSession.customer
-      )) as unknown as StripeCustomer;
-
-      const { cartId, userId, type, product } = customer.metadata;
+      }
+      const customer = await stripe.customers.retrieve(stripeSession.customer) as unknown as StripeCustomer
+  
+      const {cartId, userId, type, product} = customer.metadata
       // create new order
-      if (type === "checkout") {
-        const cartItems = await getCartItems(userId, cartId);
+      if(type === 'checkout'){
+        const cartItems = await getCartItems(userId, cartId)
         await OrderModel.create({
           userId,
           stripeCustomerId: stripeSession.customer,
@@ -67,30 +64,28 @@ export const POST = async (req: Request) => {
           paymentStatus: stripeSession.payment_status,
           deliveryStatus: "ordered",
           orderItems: cartItems.products,
-        });
-
+        })
+  
         // recount our stock
-        const updateProductPromises = cartItems.products.map(
-          async (product) => {
-            return await ProductModel.findByIdAndUpdate(product.id, {
-              $inc: { quantity: -product.qty },
-            });
-          }
-        );
-
+        const updateProductPromises = cartItems.products.map(async (product) => {
+          return await ProductModel.findByIdAndUpdate(product.id, {
+            $inc: { quantity: -product.qty}
+          });
+        });
+  
         await Promise.all(updateProductPromises);
-
-        // remove the cart
+  
+        // delete cart
         await CartModel.findByIdAndDelete(cartId);
       }
-
-      if (type === "instant-checkout") {
-        const productInfo = JSON.parse(product) as unknown as CartProduct;
+  
+      if(type === 'instant-checkout'){
+        const productInfo = JSON.parse(product) as unknown as CartProduct
         await OrderModel.create({
           userId,
           stripeCustomerId: stripeSession.customer,
           paymentIntent: stripeSession.payment_intent,
-          totalAmount: stripeSession.amount_subtotal / 100,
+          totalAmount: stripeSession.amount_subtotal,
           shippingDetails: {
             address: stripeSession.customer_details.address,
             email: stripeSession.customer_details.email,
@@ -98,21 +93,20 @@ export const POST = async (req: Request) => {
           },
           paymentStatus: stripeSession.payment_status,
           deliveryStatus: "ordered",
-          orderItems: [{ ...productInfo }],
-        });
-
+          orderItems: [{...productInfo}],
+        })
+  
         // recount our stock
         await ProductModel.findByIdAndUpdate(productInfo.id, {
-          $inc: { quantity: -1 },
+          $inc: { quantity: -1}
         });
       }
     }
-
     return NextResponse.json({});
   } catch (error) {
     return NextResponse.json(
-      { error: "Something went wrong, can not create order!" },
-      { status: 500 }
-    );
+      {error: "Something went wrong! Could not create order!"},
+      {status: 500}
+    )
   }
 };

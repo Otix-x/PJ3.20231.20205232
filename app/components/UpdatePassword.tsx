@@ -12,12 +12,12 @@ import { useRouter } from "next/navigation";
 const validationSchema = yup.object().shape({
     password1: yup
         .string()
-        .required("Password is required")
-        .min(8, "Password must be at least 8 characters long"),
+        .required("Mật khẩu là bắt buộc")
+        .min(8, "Mật khẩu có độ dài ít nhất 8 ký tự"),
     password2: yup
         .string()
-        .oneOf([yup.ref("password1")], "Passwords must match")
-        .required("Confirm password is required"),
+        .oneOf([yup.ref("password1")], "Mật khẩu không khớp")
+        .required("Xác nhận mật khẩu là bắt buộc"),
 });
 
 interface Props {
@@ -68,7 +68,7 @@ export default function UpdatePassword({ token, userId }: Props) {
         <FormContainer title="Reset password" onSubmit={handleSubmit}>
             <Input
                 name="password1"
-                label="Password"
+                label="Mật khẩu"
                 value={password1}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -76,14 +76,14 @@ export default function UpdatePassword({ token, userId }: Props) {
                 type="password" crossOrigin={undefined} />
             <Input
                 name="password2"
-                label="Confirm Password"
+                label="Xác nhận mật khẩu"
                 value={password2}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={error("password2")}
                 type="password" crossOrigin={undefined} />
             <Button type="submit" className="w-full" color="deep-purple" disabled={isSubmitting}>
-                Reset Password
+                Đổi mặt khẩu
             </Button>
             <div className="">
                 {errorsToRender.map((item) => {

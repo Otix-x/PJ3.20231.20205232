@@ -13,6 +13,7 @@ import { MobileNav } from "../MobileNav";
 import CartIcon from "../CartIcon";
 import { UserCircleIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 import useAuth from "@hooks/useAuth";
+import SearchForm from "../SearchForm";
 
 interface Props {
   cartItemsCount: number;
@@ -23,12 +24,12 @@ export const menuItems = [
   {
     href: "/profile",
     icon: <UserCircleIcon className="h-4 w-4" />,
-    label: "My Profile",
+    label: "Hồ sơ",
   },
   {
     href: "/profile/orders",
     icon: <ShoppingBagIcon className="h-4 w-4" />,
-    label: "Orders",
+    label: "Đơn hàng",
   },
 ];
 
@@ -53,6 +54,12 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
             PSMS
           </Link>
 
+          <div className="flex-1 flex justify-center">
+            <div className="md:w-96 w-full md:mx-0 mx-4 ">
+              <SearchForm submitTo="/search?query=" />
+            </div>
+          </div>
+
           <div className="hidden lg:flex gap-2 items-center">
             <CartIcon cartItems={cartItemsCount} />
             {loggedIn ? (
@@ -62,13 +69,13 @@ export default function NavUI({ cartItemsCount, avatar }: Props) {
             ) : (
               <>
                 <Link className="px-4 py-1" href="/auth/signin">
-                  Sign in
+                  Đăng nhập
                 </Link>
                 <Link
                   className="bg-blue-500 text-white px-4 py-1 rounded"
                   href="/auth/signup"
                 >
-                  Sign up
+                  Đăng ký
                 </Link>
               </>
             )}
