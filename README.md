@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Khởi chạy dự án
 
-## Getting Started
-
-First, run the development server:
-
+- Đầu tiên chạy câu lệnh sau để cài đặt các gói phụ thuộc:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm i
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Sau đó chạy câu lệnh sau để khởi chạy dự án:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Mở [http://localhost:3000](http://localhost:3000) với trình duyệt của bạn để xem kết quả.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Cài đặt biến môi trường
 
-## Learn More
+Khởi tạo file `.env` trong thư mục gốc của dự án và thêm các biến môi trường sau:
 
-To learn more about Next.js, take a look at the following resources:
+```javascript
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Vercel secrets for production
+AUTH_SECRET=
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# For email
+PASSWORD_RESET_URL=http://localhost:3000/auth/reset-password
+SIGN_IN_URL=http://localhost:3000/auth/signin
+VERIFICATION_URL=http://localhost:3000/verify
 
-## Deploy on Vercel
+PAYMENT_SUCCESS_URL=http://localhost:3000/profile/orders
+PAYMENT_CANCEL_URL=http://localhost:3000/profile/orders
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# For cloudinary
+CLOUD_NAME=
+CLOUD_API_KEY=
+CLOUD_API_SECRET=
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# For payment gateway
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+```
+
+- Đối với AUTH_SECRET, bạn có thể tạo bằng cách truy cập trang [https://generate-secret.vercel.app/](https://generate-secret.vercel.app/)
+-  Đối với CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET, bạn có thể tạo tài khoản tại [https://cloudinary.com/](https://cloudinary.com/), sau đó tạo một cloud name và lấy api key và api secret. 
+-  Đối với STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, bạn có thể tạo tài khoản tại [https://stripe.com/](https://stripe.com/), sau đó tạo một tài khoản và lấy api key và webhook secret.
+

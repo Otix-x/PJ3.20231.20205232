@@ -28,7 +28,7 @@ const AdminSidebar = ({ children }: Props) => {
               href="/dashboard"
             > 
               <Image src="https://img.logoipsum.com/248.svg" alt="Home" width={50} height={50}/> 
-              <span> Ecommerce </span> 
+              <span>PSMS</span> 
             </Link>
             
           </li>
